@@ -24,10 +24,16 @@ class RestaurantSerializer(serializers.ModelSerializer):
         model = Restaurant
         fields = ['id', 'name', 'address', 'zip', 'state', 'num_reviews', 'stars']
 
-class SingleRestaurantSerializer(serializers.ModelSerializer):
+class DetailedRestaurantSerializer(serializers.ModelSerializer):
     meals = MealSerializer(many=True)
 
     class Meta:
         model = Restaurant
         fields = ['id', 'name', 'address', 'phone_number', 'coordinates', 'country', 'city', 'zip', 'state', 'num_reviews', 'stars', 'meals']
+
+class SearchedRestaurantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Restaurant
+        fields = ['id', 'name']
 
