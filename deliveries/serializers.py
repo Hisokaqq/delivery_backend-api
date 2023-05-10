@@ -37,17 +37,14 @@ class SearchedRestaurantSerializer(serializers.ModelSerializer):
         model = Restaurant
         fields = ['id', 'name']
 
-
-
-
-
 class OrderSerializer(serializers.ModelSerializer):
-    restaurant = serializers.StringRelatedField()
+    restaurant = serializers.SerializerMethodField()
     meals = serializers.StringRelatedField(many=True)
     order_stamp_time = serializers.DateTimeField(format="%d %b, %H:%M")
 
     class Meta:
         model = Order
         fields = ('id', 'restaurant', 'meals', 'subtotal', 'delivery_price', 'tax_price', 'full_price', 'order_stamp_time')
-
-
+    
+    def get_restaurant(self, obj):
+        return {"id": obj.restaurant.id, "name": obj.restaurant.name}

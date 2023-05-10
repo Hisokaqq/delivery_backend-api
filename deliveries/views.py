@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import RestaurantSerializer, DetailedRestaurantSerializer, SearchedRestaurantSerializer, OrderSerializer
 from .models import Restaurant, Order
 from rest_framework.views import APIView
@@ -55,4 +55,15 @@ class OrdersList(APIView):
     def get(self, request):
         order = Order.objects.all()
         serializer = OrderSerializer(order, many=True)
+        return Response(serializer.data)
+    
+# My Orders
+
+class MyOrdersList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        orders = user.order_set.all()
+        serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
