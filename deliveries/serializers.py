@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Restaurant, Meal, Ingredient, Restaurant_Type, Order, Review, Meal_Type
+from .models import Restaurant, Meal, Ingredient, Restaurant_Type, Order, Review, Meal_Type, OrderItem
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,14 +37,24 @@ class SearchedRestaurantSerializer(serializers.ModelSerializer):
         model = Restaurant
         fields = ['id', 'name']
 
+
+#Ordering
+class OrderItemSerializer(serializers.ModelSerializer):
+    meal = serializers.StringRelatedField()
+
+    class Meta:
+        model = OrderItem
+        fields = ('meal', 'quantity')
+
+
 class OrderSerializer(serializers.ModelSerializer):
     restaurant = serializers.SerializerMethodField()
-    meals = serializers.StringRelatedField(many=True)
+    order_items = OrderItemSerializer(many=True, read_only=True)
     order_stamp_time = serializers.DateTimeField(format="%d %b, %H:%M")
 
     class Meta:
         model = Order
-        fields = ('id', 'restaurant', 'meals', 'subtotal', 'delivery_price', 'tax_price', 'full_price', 'order_stamp_time')
+        fields = ('id', 'restaurant', 'order_items', 'subtotal', 'delivery_price', 'tax_price', 'full_price', 'order_stamp_time')
     
     def get_restaurant(self, obj):
         return {"id": obj.restaurant.id, "name": obj.restaurant.name}

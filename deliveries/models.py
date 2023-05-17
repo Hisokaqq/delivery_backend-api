@@ -54,20 +54,29 @@ class Meal_Type(models.Model):
 class Order(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE)
-    meals = models.ManyToManyField(Meal)
     subtotal = models.FloatField(blank=True)
     delivery_price = models.FloatField(blank=True)
     tax_price = models.FloatField(blank=True)
     full_price = models.FloatField(blank=True, null=True)
-
     order_stamp_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.restaurant) + " delivering to " + str(self.receiver)
 
     def save(self, *args, **kwargs):
-        self.full_price = self.meal_price + self.delivery_price + self.tax_price
+        self.full_price = self.subtotal + self.delivery_price + self.tax_price
         super(Order, self).save(*args, **kwargs)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return "Order id:" + str(self.order.id) + " - meal: " + str(self.meal) + " - quantity: " + str(self.quantity)
+
+
 
 
 class Review(models.Model):
