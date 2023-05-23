@@ -6,7 +6,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     address = models.TextField(max_length=300, blank=True)
-
+    current_coordinates = models.CharField(max_length=200, blank=True)
     def __str__(self):
         return str(self.user.username) + ' - ' + str(self.first_name) + ' ' + str(self.last_name)
 

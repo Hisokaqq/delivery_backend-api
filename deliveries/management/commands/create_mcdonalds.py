@@ -22,7 +22,11 @@ class Command(BaseCommand):
         )
 
         # Create Ingredients
-        ingredient_names = ['Beef Patty', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Onion', 'Pickles', 'Ketchup', 'Mustard']
+        ingredient_names = [
+    'Beef Patty', 'Bun', 'Lettuce', 'Tomato', 'Cheese',
+    'Onion', 'Pickles', 'Ketchup', 'Mustard', 'Mayonnaise',
+    'Bacon', 'Egg', 'Mushrooms', 'Avocado', 'Salsa'
+]
         try:
             ingredients = [Ingredient.objects.create(name=name) for name in ingredient_names]
         except:
@@ -34,20 +38,69 @@ class Command(BaseCommand):
 
         # Create Meals
         meal_data = [
-            {
-                'name': 'Big Mac',
-                'price': 5.99,
-                'description': 'Two all-beef patties, special sauce, lettuce, cheese, pickles, onions on a sesame seed bun',
-                'ingredient_ids': [1, 2, 3, 5, 6, 7, 8]
-            },
-            {
-                'name': 'Cheeseburger',
-                'price': 2.49,
-                'description': 'Beef patty, cheese, pickles, onions, ketchup, mustard on a bun',
-                'ingredient_ids': [1, 2, 5, 6, 7, 8, 9]
-            },
-            # Add more meals as needed
-        ]
+    {
+        'name': 'Big Mac',
+        'price': 5.99,
+        'description': 'Two all-beef patties, special sauce, lettuce, cheese, pickles, onions on a sesame seed bun',
+        'ingredient_ids': [1, 2, 3, 5, 6, 7, 8]
+    },
+    {
+        'name': 'Quarter Pounder with Cheese',
+        'price': 4.99,
+        'description': 'Quarter pound beef patty, cheese, onions, pickles, ketchup, mustard on a sesame seed bun',
+        'ingredient_ids': [1, 2, 6, 7, 8, 9]
+    },
+    {
+        'name': 'Cheeseburger',
+        'price': 2.49,
+        'description': 'Beef patty, cheese, pickles, onions, ketchup, mustard on a bun',
+        'ingredient_ids': [1, 2, 5, 6, 7, 8, 9]
+    },
+    {
+        'name': 'Hamburger',
+        'price': 1.99,
+        'description': 'Beef patty, pickles, onions, ketchup, mustard on a bun',
+        'ingredient_ids': [1, 6, 7, 8, 9]
+    },
+    {
+        'name': 'McChicken',
+        'price': 3.49,
+        'description': 'Breaded chicken patty, lettuce, mayo on a bun',
+        'ingredient_ids': [2, 3, 10]
+    },
+    {
+        'name': 'Chicken McNuggets (6 pieces)',
+        'price': 4.99,
+        'description': 'Six pieces of crispy chicken nuggets',
+        'ingredient_ids': [10]
+    },
+    {
+        'name': 'Chicken McNuggets (10 pieces)',
+        'price': 6.99,
+        'description': 'Ten pieces of crispy chicken nuggets',
+        'ingredient_ids': [10]
+    },
+    {
+        'name': 'Filet-O-Fish',
+        'price': 4.49,
+        'description': 'Breaded fish fillet, tartar sauce, cheese on a bun',
+        'ingredient_ids': [12]
+    },
+    {
+        'name': 'McWrap',
+        'price': 4.99,
+        'description': 'Grilled chicken, lettuce, tomato, cheese, ranch dressing wrapped in a tortilla',
+        'ingredient_ids': [3, 4, 10, 13]
+    },
+    {
+        'name': 'Caesar Salad',
+        'price': 3.99,
+        'description': 'Romaine lettuce, croutons, Parmesan cheese, Caesar dressing',
+        'ingredient_ids': [3, 14]
+    },
+    # Add more meals as needed
+]
+       
 
         for meal in meal_data:
             ingredients = Ingredient.objects.filter(pk__in=meal['ingredient_ids'])

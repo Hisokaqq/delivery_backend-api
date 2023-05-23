@@ -42,3 +42,17 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+
+#Coordinatess
+
+class UpdatingCoordinates(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = request.data
+        profile = request.user.profile
+        profile.current_coordinates = data["current_coordinates"]
+        profile.save()
+        serializer = ProfileSerializer(profile, many=False)
+        return Response(serializer.data)
